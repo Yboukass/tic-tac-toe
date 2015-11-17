@@ -14,19 +14,28 @@ var Box = React.createClass({
 		   'value': this.props.initialValue
 	   };
    },
+   
+   componentWillMount: function(){
+       var old_this = this;
+       this.timer = setInterval(function(){
+       
+       var oldValue = old_this.state.value;
+       var newValue = oldValue === 'X' ? 'O': 'X';
+       old_this.setState({
+       value: newValue
+       });
+       }, 300);
+       },
+           
+       componentWillUnmount: function(){
+   clearInterval(this.timer);},
+   
   'render': function onRender () {
     return (
-         <button style = {boxStyle}>{this.props.value}</button>
+         <button style = {boxStyle}>{this.state.value}</button>
     );
   }
+  
 });
+React.render(<Box initialValue={'X'}/>, document.body);
 
-React.render(<Box value='X'/>, document.body);
-
-var MessageBox = React.createClass({
-  render: function() {
-    return <div>{'Mr. ' + this.props.name}</div>;
-  }
-});
-
-ReactDOM.render(<MessageBox name="Rogers"/>, mountNode);
